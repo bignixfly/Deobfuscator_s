@@ -1,11 +1,7 @@
-name: Test and build
+name: Manual Build
 
 on:
-  push:
-    branches: [ main ]
-    tags:
-      - 'v*'
-  pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
