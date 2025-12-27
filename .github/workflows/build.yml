@@ -20,16 +20,22 @@ jobs:
       - name: Build
         run: mvn -B clean package
 
-      # 1️⃣ 每次都能下（Actions 页面）
+      # 可选：调试用（确认 jar 位置）
+      - name: Find jars
+        run: find . -name "*.jar"
+
+      # 1️⃣ 每次手动跑都可下载（Actions → Artifacts）
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build-output
-          path: target/*.jar
+          path: |
+            **/target/*.jar
 
-      # 2️⃣ 只有打 tag 才发 Release
+      # 2️⃣ 只有 tag 才发布 Release
       - name: Upload Release Asset
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: target/*.jar
+          files: |
+            **/target/*.jar
